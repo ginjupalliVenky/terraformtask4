@@ -91,18 +91,18 @@ resource "azurerm_network_interface_security_group_association" "this" {
 }
 
 resource "azurerm_linux_virtual_machine" "this" {
-  name                  = var.vm_name
-  resource_group_name   = azurerm_resource_group.this.name
-  location              = azurerm_resource_group.this.location
-  size                  = var.vm_sku
-  admin_username        = var.vm_username
-  admin_password        = var.vm_password
+  name                            = var.vm_name
+  resource_group_name             = azurerm_resource_group.this.name
+  location                        = azurerm_resource_group.this.location
+  size                            = var.vm_sku
+  admin_username                  = var.vm_username
+  admin_password                  = var.vm_password
   disable_password_authentication = false
-  network_interface_ids = [azurerm_network_interface.this.id]
+  network_interface_ids           = [azurerm_network_interface.this.id]
 
   os_disk {
-    name              = "${var.vm_name}-osdisk"
-    caching           = "ReadWrite"
+    name                 = "${var.vm_name}-osdisk"
+    caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
@@ -113,8 +113,8 @@ resource "azurerm_linux_virtual_machine" "this" {
     version   = "latest"
   }
 
-  computer_name  = var.vm_name
-  tags           = { Creator = var.creator }
+  computer_name = var.vm_name
+  tags          = { Creator = var.creator }
 
   provisioner "remote-exec" {
     inline = [
@@ -125,10 +125,10 @@ resource "azurerm_linux_virtual_machine" "this" {
     ]
 
     connection {
-      type        = "ssh"
-      user        = var.vm_username
-      password    = var.vm_password
-      host        = azurerm_public_ip.this.ip_address
+      type     = "ssh"
+      user     = var.vm_username
+      password = var.vm_password
+      host     = azurerm_public_ip.this.ip_address
     }
   }
 }
